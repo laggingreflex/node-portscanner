@@ -87,3 +87,58 @@ test('findAPortNotInUse - all ports in range taken', t => {
         t.false(port);
     });
 });
+
+test('checkPortStatus - taken (port as a string)', t => {
+  t.plan(2)
+
+  portScanner.checkPortStatus('3000', '127.0.0.1', (error, port) => {
+    t.is(error, null)
+    t.is(port, 'open')
+  })
+})
+
+test('checkPortStatus - free (port as a string)', t => {
+  t.plan(2)
+
+  portScanner.checkPortStatus('3001', '127.0.0.1', (error, port) => {
+    t.is(error, null)
+    t.is(port, 'closed')
+  })
+})
+
+test('findPortInUse - taken port in range (startPort as a string)', t => {
+  t.plan(2)
+
+  portScanner.findAPortInUse('3000', 3010, '127.0.0.1', (error, port) => {
+    t.is(error, null)
+    t.is(port, '3000')
+  })
+})
+
+test('findPortInUse - taken port in range (endPort as a string)', t => {
+  t.plan(2)
+
+  portScanner.findAPortInUse(3000, '3010', '127.0.0.1', (error, port) => {
+    t.is(error, null)
+    t.is(port, 3000)
+  })
+})
+
+test('findPortInUse - taken port in range (startPort and endPort as strings)', t => {
+  t.plan(2)
+
+  portScanner.findAPortInUse('3000', '3010', '127.0.0.1', (error, port) => {
+    t.is(error, null)
+    t.is(port, '3000')
+  })
+})
+
+// test('findAPortNotInUse - start from free port (startPort as a string)', t => {
+//     t.plan(2);
+
+//     portScanner.findAPortNotInUse('3001', 3010, '127.0.0.1', (error, port) => {
+//         t.is(error, null);
+//         t.true(port !== '3001');
+//     });
+// });
+
